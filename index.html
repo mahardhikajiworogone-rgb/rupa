@@ -92,5 +92,5 @@ async function delAsset(id){await sb.from('rupa_original_assets').delete().eq('i
 async function togglePub(id,st){await sb.from('rupa_original_assets').update({status:st==='published'?'draft':'published'}).eq('id',id); await loadData(); render()}
 function goAdmin(){curPage='admin'; render()}
 async function doLogout(){await sb.auth.signOut(); show('authPage')}
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); } init();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js?v=3?v=3').catch(()=>{}); } init();
 </script></body></html>
