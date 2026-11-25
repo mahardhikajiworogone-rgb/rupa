@@ -1,0 +1,11 @@
+// ============================================
+// RUPA V1.0 - KONFIGURASI SUPABASE
+// CARA ISI:
+// 1. Buka file ini
+// 2. Ganti tulisan PASTE_URL_DISINI dengan Project URL kamu
+// 3. Ganti PASTE_ANON_KEY_DISINI dengan anon public key kamu
+// 4. Simpan, JANGAN kirim file ini ke siapa pun yang tidak perlu
+// 5. JANGAN isi SERVICE_ROLE KEY di sini!
+// ============================================
+const SUPABASE_URL = "PASTE_URL_DISINI";
+const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_DISINI";
