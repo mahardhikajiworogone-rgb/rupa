@@ -7,5 +7,5 @@
 // 4. Simpan, JANGAN kirim file ini ke siapa pun yang tidak perlu
 // 5. JANGAN isi SERVICE_ROLE KEY di sini!
 // ============================================
-const SUPABASE_URL = "PASTE_URL_DISINI";
-const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_DISINI";
+const SUPABASE_URL ="https://hfeooigsmgtfacvfcoae.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_0N6J0-ZohvOkaJaUxLW-ig_tqyqPrko";
