@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>RUPA V1.0 Full Premium</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><style>
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>RUPA V1.0 Full Premium</title><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="RUPA"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 body{background:#000;color:#fff;min-height:100vh;background-image:radial-gradient(600px 300px at 50% -50px,rgba(255,255,255,.18),transparent 60%),radial-gradient(500px 400px at 80% 30%,rgba(192,192,192,.12),transparent 60%),radial-gradient(400px 300px at 10% 60%,rgba(255,255,255,.08),transparent 60%)}
 body.light{background:#F6F7FB;color:#0F1B3D;background-image:none}
@@ -91,5 +91,5 @@ async function delAsset(id){await sb.from('rupa_original_assets').delete().eq('i
 async function togglePub(id,st){await sb.from('rupa_original_assets').update({status:st==='published'?'draft':'published'}).eq('id',id); await loadData(); render()}
 function goAdmin(){curPage='admin'; render()}
 async function doLogout(){await sb.auth.signOut(); show('authPage')}
-init();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); } init();
 </script></body></html>
