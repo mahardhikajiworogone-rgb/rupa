@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RUPA - Personalisasi Tanpa Batas</title>
+<meta name="theme-color" content="#000000">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{background:#000;color:#fff;min-height:100vh}
+.hidden{display:none!important}
+.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.logo{width:110px;height:110px;border-radius:28px;background:linear-gradient(145deg,#e8e8e8,#8a8a8a,#2a2a2a,#d9d9d9);display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:900;color:#111;box-shadow:0 20px 60px rgba(255,255,255,.25)}
+.logo span{background:linear-gradient(180deg,#fff,#999);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+h1{font-size:42px;letter-spacing:8px;margin-top:16px}
+.tag{color:#aaa;margin-top:6px}
+.card{background:#111;border:1px solid #333;border-radius:20px;padding:20px;width:100%;max-width:400px;margin-top:24px;text-align:left}
+input{width:100%;padding:13px;border-radius:12px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:10px;font-size:15px}
+button{width:100%;padding:13px;border:none;border-radius:12px;margin-top:12px;font-size:16px;font-weight:700;cursor:pointer}
+.btn-silver{background:linear-gradient(180deg,#fff,#c0c0c0);color:#111}
+.btn-ghost{background:transparent;color:#ccc;border:1px solid #333}
+a{color:#ddd}
+.msg{margin-top:12px;font-size:13px;color:#ffb3b3;min-height:18px}
+.ok{color:#7CFC9A!important}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(145deg,#FFC800,#0F1B3D);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;border:2px solid silver}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.tile{background:#111;border:1px solid #333;border-radius:16px;padding:18px;text-align:center}
+.tile b{display:block;margin-top:8px}
+.badge{background:#0f5132;color:#7CFC9A;padding:4px 10px;border-radius:20px;font-size:12px}
+.pill{background:linear-gradient(180deg,#fff,#c0c0c0);color:#111;border-radius:20px;padding:8px 14px;font-weight:700;border:none;width:auto}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#0a0a0a;border-top:1px solid #333;display:flex;padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:50}
+.nav button{background:none;color:#888;flex:1;padding:6px;font-size:12px}
+.nav button.active{color:#fff}
+.content{padding-bottom:90px}
+.section{padding:14px 16px}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="center">
+  <div class="logo"><span>R</span></div>
+  <h1>RUPA</h1>
+  <p class="tag">Personalisasi Tanpa Batas dengan Kreativitas Anda</p>
+  <p style="margin-top:60px;color:#888;font-size:13px">powered by. IdeA1</p>
+</div>
+
+<!-- LOGIN -->
+<div id="loginPage" class="center hidden">
+  <div class="logo" style="width:80px;height:80px;font-size:44px"><span>R</span></div>
+  <h1 style="font-size:32px">RUPA</h1>
+  <p class="tag">Personalisasi Tanpa Batas dengan Kreativitas Anda</p>
+  <div class="card">
+    <h2>Selamat Datang</h2>
+    <p style="color:#aaa;font-size:13px;margin-top:4px">Masuk untuk melanjutkan — pakai akun Supabase asli</p>
+    <input id="email" type="email" placeholder="Email — misal adminsiapgas@rupa.id">
+    <input id="password" type="password" placeholder="Password">
+    <button class="btn-silver" onclick="doLogin()">Login</button>
+    <button class="btn-ghost" onclick="toggleRegister()">Belum punya akun? Daftar</button>
+    <div id="regBox" class="hidden">
+      <input id="regName" type="text" placeholder="Nama lengkap">
+      <button class="btn-silver" onclick="doRegister()">Daftar Akun Baru</button>
+    </div>
+    <div id="loginMsg" class="msg"></div>
+    <p style="font-size:12px;color:#777;margin-top:10px">Untuk testing: Confirm Email OFF di Supabase, jadi langsung bisa login setelah daftar.</p>
+  </div>
+  <p style="margin-top:20px;color:#888;font-size:13px">powered by. IdeA1</p>
+</div>
+
+<!-- HOME -->
+<div id="homePage" class="hidden">
+  <div class="top">
+    <div style="display:flex;align-items:center;gap:10px"><div class="logo" style="width:36px;height:36px;font-size:20px;border-radius:10px"><span>R</span></div><b style="letter-spacing:4px">RUPA</b></div>
+    <div>🔔 <span style="background:red;border-radius:50%;padding:2px 6px;font-size:11px">3</span> ⚙️</div>
+  </div>
+  <div class="content">
+    <div class="section" style="display:flex;gap:12px;align-items:center">
+      <div class="avatar" id="avatarLetter">A</div>
+      <div><div style="color:#aaa;font-size:13px">Selamat datang kembali,</div><b id="userName" style="font-size:20px">Admin RUPA</b><div id="userEmail" style="color:#aaa;font-size:13px">—</div><div id="userRole" class="badge" style="margin-top:6px;display:inline-block">MEMERIKSA ROLE...</div></div>
+    </div>
+    <div class="section"><div class="card" style="margin:0">
+      <div style="display:flex;justify-content:space-between"><b>📱 Perangkat Saya</b><span class="badge">✓ Terhubung</span></div>
+      <p style="margin-top:10px"><b>Samsung Galaxy S25 Ultra</b></p>
+      <p style="color:#aaa;font-size:13px">Android 16 • 6.8" • 3120x1440</p>
+      <button class="pill" style="margin-top:12px" onclick="alert('Compatibility Engine: Wallpaper Supported, Themes Supported, Icon Packs Partially Supported — data dari Supabase compatibility_results di versi berikutnya')">Lihat Kompatibilitas ></button>
+    </div></div>
+    <div class="section"><b>⚡ Akses Cepat</b></div>
+    <div class="grid">
+      <div class="tile">🖼️<b>Wallpaper</b><span style="color:#aaa;font-size:12px">Koleksi wallpaper</span></div>
+      <div class="tile">🎨<b>Themes</b><span style="color:#aaa;font-size:12px">Tema tampilan</span></div>
+      <div class="tile">🧩<b>Icon Packs</b><span style="color:#aaa;font-size:12px">Paket ikon</span></div>
+      <div class="tile">🔒<b>Lock Screen</b><span style="color:#aaa;font-size:12px">Inspirasi layar</span></div>
+    </div>
+    <div class="section"><b>📚 Koleksi RUPA Original (dari Supabase)</b><div id="assetsList" style="margin-top:10px;color:#aaa">Memuat...</div></div>
+    <div class="section"><button class="btn-ghost" onclick="doLogout()">Logout</button><p id="debug" style="font-size:11px;color:#555;margin-top:10px"></p></div>
+  </div>
+  <div class="nav">
+    <button class="active">🏠<br>Home</button><button onclick="alert('Explore: data dari Supabase di versi penuh')">🔍<br>Explore</button><button onclick="alert('My Studio: Favorites dari Supabase di versi penuh')">🎨<br>My Studio</button><button onclick="alert('Creator: Open Creator aktif')">✨<br>Creator</button><button onclick="alert('Profile: Edit profil di Supabase profiles')">👤<br>Profile</button>
+  </div>
+</div>
+
+<script>
+let supabaseClient = null;
+function show(id){ ['splash','loginPage','homePage'].forEach(x=>document.getElementById(x).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+function toggleRegister(){ document.getElementById('regBox').classList.toggle('hidden'); }
+async function init(){
+  if(SUPABASE_URL.includes('PASTE_')){ document.getElementById('loginMsg').textContent='Belum isi config.js — ganti PASTE_URL_DISINI dan PASTE_ANON_KEY_DISINI dulu.'; }
+  else { supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+  setTimeout(async ()=>{
+    if(supabaseClient){
+      const {data:{session}} = await supabaseClient.auth.getSession();
+      if(session){ await loadHome(session.user); return; }
+    }
+    show('loginPage');
+  }, 1500);
+}
+async function doLogin(){
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  const msg=document.getElementById('loginMsg');
+  if(!supabaseClient){ msg.textContent='Isi config.js dulu.'; return; }
+  const {data, error} = await supabaseClient.auth.signInWithPassword({email, password});
+  if(error){ msg.textContent='Gagal: '+error.message; return; }
+  msg.textContent='Berhasil login...'; msg.classList.add('ok');
+  await loadHome(data.user);
+}
+async function doRegister(){
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  const name=document.getElementById('regName').value.trim();
+  const msg=document.getElementById('loginMsg');
+  const {data, error} = await supabaseClient.auth.signUp({email, password, options:{data:{full_name:name}}});
+  if(error){ msg.textContent='Gagal daftar: '+error.message; return; }
+  msg.textContent='Akun dibuat! Coba Login sekarang.'; msg.classList.add('ok');
+}
+async function loadHome(user){
+  show('homePage');
+  document.getElementById('userEmail').textContent=user.email;
+  document.getElementById('avatarLetter').textContent=(user.email||'A').charAt(0).toUpperCase();
+  // Ambil profile + role + aset asli dari Supabase
+  const {data:prof} = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
+  if(prof && prof.full_name){ document.getElementById('userName').textContent=prof.full_name; }
+  const {data:role} = await supabaseClient.from('user_roles').select('role').eq('user_id', user.id).single();
+  document.getElementById('userRole').textContent = role ? ('ROLE: '+role.role.toUpperCase()) : 'ROLE: USER';
+  const {data:assets, error} = await supabaseClient.from('rupa_original_assets').select('title,description,status').eq('status','published');
+  const el=document.getElementById('assetsList');
+  if(error){ el.textContent='Gagal ambil aset: '+error.message; }
+  else if(!assets || !assets.length){ el.textContent='Belum ada aset published.'; }
+  else { el.innerHTML = assets.map(a=>'<div style="background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:12px;margin-top:8px"><b>'+a.title+'</b><div style="font-size:12px">'+(a.description||'')+'</div></div>').join(''); }
+}
+async function doLogout(){ await supabaseClient.auth.signOut(); show('loginPage'); }
+init();
+</script>
+</body>
+</html>
